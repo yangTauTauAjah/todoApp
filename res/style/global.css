@@ -1,0 +1,81 @@
+/* [--- global */
+
+* {
+  padding: 0;
+  margin: 0;
+  transition: none;
+  position: relative;
+  font-family: 'Poppins', 'arial';
+  --gray: #465153;
+  --light-gray: #627375;
+  --task-bg: #F2F2F2;
+}
+
+body {
+  background: #E4F9FF;
+}
+
+a {
+  color: #606B8D;
+  font-weight: 300;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  transition: color 200ms;
+}
+
+.div-center {
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+  position: absolute
+}
+
+.flex-1-line-h {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-1-line-v {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* global ---] */
+
+/* [--- 3d button */
+
+.push-btn {
+  position: relative;
+}
+
+.push-btn > div {
+  border-radius: inherit;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.push-btn > div:nth-child(1) {
+  z-index: 2;
+  top: -3px;
+  transition: top 100ms ease-in;
+}
+
+.push-btn > div:nth-child(1) {
+  z-index: 2;
+  top: -3px;
+}
+
+.push-btn > div:nth-child(1):active {
+  top: 0px
+}
+
+.push-btn > div:nth-child(2) {
+  top: 3px;
+}
+
+/* 3d button ---] */

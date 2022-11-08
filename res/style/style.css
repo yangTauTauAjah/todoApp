@@ -1,0 +1,119 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing:border-box;
+  letter-spacing: 0.5px;
+}
+
+/* p {
+  width: 100px;
+  height: 50px;
+  padding: 20px;
+  border: 1px solid;
+} */
+
+body {
+  background: rgb(255, 66, 63);
+}
+
+#iForm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 40px;
+  transform: translateY(-50%) translateX(-50%);
+  border-radius: 5px;
+  width: 400px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  background: rgb(255, 255, 255);
+}
+
+#iForm h1 {
+  margin: 10px 0;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.input {
+  display: flex;
+}
+
+#username, #password {
+  padding: 10px 0;
+}
+
+.bottomLine {
+  position: absolute;
+  top: 80%;
+  /* transform: translateX(-50%); */
+  background-color: rgb(148, 175, 230);
+  height: 3px;
+  width: 95%;
+}
+
+.input .iBox {
+  position: relative;
+  width: 87%;
+  height: 40px;
+}
+
+input {
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+  background: rgb(239, 239, 239);
+  outline: none;
+  border: none;
+  padding: 10px 10px 10px 0;
+}
+
+.thick {
+  flex-basis: 20px;
+  font-weight: 300;
+  color: black;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.input label {
+  margin-bottom: 5px;
+}
+
+#submit {
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  letter-spacing: 5px;
+  font-weight: 1000;
+  background-color: rgb(8, 231, 119);
+  height: 40px;
+  margin: 50px 0 5px 0;
+  border: none;
+}
+
+#submit:hover {
+  pointer-events:fill;
+}
+
+.thick.FP {
+  text-align: right;
+}
+
+.icon {
+  position: relative;
+  height: inherit;
+  width: 40px;
+  background: rgb(239, 239, 239);
+}
+
+.icon > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  filter: opacity(50%);
+  border-radius: 5px 0 0 5px;
+  transform: translateX(-50%) translateY(-50%);
+}

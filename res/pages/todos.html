@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Oswald:wght@300;500;600&family=Open+Sans:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/navbar-box.css">
+    <link rel="stylesheet" href="../style/todos.css">
+    
+      
+  </head>
+  <body>
+
+    <nav id="nav-box" class="flex-1-line-h">
+      <img id="logo" src="../svg/final/logo.png" alt="">
+      <div id="show-more" class="push-btn sidebar-btn">
+        <div style="background: #ECECEC">
+          <div style="background: #CACACA; height: 4px; width: 22px;"></div>
+          <div style="background: #CACACA; height: 4px; width: 22px;"></div>
+          <div style="background: #CACACA; height: 4px; width: 22px;"></div>
+        </div>
+        <div style="background: #CACACA"></div>
+      </div>
+      <div class="nav-link">
+        <div class="flex-1-line-h">
+          <a href="#" class="btn">Home</a>
+          <a href="#" class="btn">About</a>
+          <a href="#" class="btn">Profile</a>
+          <div class="push-btn">
+            <div class="btn-1" style="background: #7342FF;">
+              <a href="#">Log out</a>
+            </div>
+            <div class="btn-1" style="background: #3D2388;"></div>
+          </div>
+          <div id="show-less" class="push-btn sidebar-btn">
+            <div style="background: #ECECEC">
+              <img class="div-center" id="arrow" src="../svg/final/arrow.png" alt="">
+            </div>
+            <div style="background: #CACACA"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="profile container flex-1-line-h">
+      <div id="profile-photo">
+        <img src="" alt="">
+      </div>
+      <div id="greeting">
+        <p>Hi, User</p>
+        <p>What have you been up to</p>
+      </div>
+      <div id="time-n-date">
+        <div id="day" style="position: relative;"><p>Wed</p></div>
+        <div id="month" style="position: relative;"><p>Jul</p></div>
+        <div id="date" style="position: relative;"><p>30</p></div>
+        <div id="year" style="position: relative;"><p>2022</p></div>
+      </div>
+    </div>
+
+    <div class="todos container">
+      <p>Todo list :</p>
+      <div class="category today flex-1-line-h">
+        <div class="img" id="category-1">
+          <img src="../svg/final/sunrise.png" alt="">
+        </div>
+        <div class="text">
+          <p class="title">Today's Activities</p>
+          <p class="desc">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="indicator flex-1-line-v">
+          <div><p>Completed 10%</p></div>
+          <div><p>10 tasks to do</p></div>
+        </div>
+      </div>
+      <div class="category plan flex-1-line-h">
+        <div class="img" id="category-2">
+          <img src="../svg/final/plan.png" alt="">
+        </div>
+        <div class="text">
+          <p class="title">Planned Tasks</p>
+          <p class="desc">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div class="indicator flex-1-line-v">
+          <div><p>Completed 10%</p></div>
+          <div><p>10 tasks to do</p></div>
+        </div>
+      </div>
+      <div class="category all flex-1-line-h">
+        <div class="img" id="category-3">
+          <img src="../svg/final/tasks.png" alt="">
+        </div>
+        <div class="text">
+          <p class="title">All Tasks</p>
+          <p class="desc">Lorem ipsum dolor, sit amet consectetur adipisicing.</p>
+        </div>
+        <div class="indicator flex-1-line-v">
+          <div><p>Completed 10%</p></div>
+          <div><p>10 tasks to do</p></div>
+        </div>
+      </div>
+      <div id="finish-task" class="category finish flex-1-line-h">
+        <div class="img" id="category-4">
+          <img src="../svg/final/finish.png" alt="">
+        </div>
+        <div class="text">
+          <p class="title">Finished Tasks</p>
+          <p class="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+        </div>
+      </div>
+    </div>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+.btn-1 > a {
+  display: block;
+  color: #ffffff;
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  text-align: center;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+@media screen and (min-width: 1025px) {
+
+  #nav-box {
+    background: #141825;
+    height: 92px;
+    padding: 0 50px;
+  }
+
+  #logo {height:50px}
+
+  .nav-link > div {
+    width: 500px;
+    font-size: 24px;
+  }
+
+  #show-more {
+    display: none;
+  }
+
+  .nav-link .push-btn {
+    width: 130px;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  a:hover {
+    color: #E4F9FF;
+  }
+
+  #show-less {display: none;}
+}
+
+@media screen and (min-width: 270px) and (max-width: 720px) {
+
+  #nav-box {
+    background: #141825;
+    height: 63px;
+    padding: 0 20px;
+  }
+
+  #logo {height:28px}
+
+  .nav-link {
+    transform: translateY(-100%);
+    z-index: 3;
+    box-shadow: 0px 4px 11px 1px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    transition: transform 300ms ease-in-out;
+  }
+
+  .nav-link.display {
+    transform: translateY(0%);
+  }
+
+  .nav-link > div {
+    padding: 36px 0;
+    gap: 36px;
+    margin: 0;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #show-more, #show-less {
+    width: 44px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  #show-more > div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+  }
+
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+
+  #nav-box {
+    background: #141825;
+    aspect-ratio: 1024 / 92;
+    padding: 0 20px;
+  }
+
+  #logo {height:54.3%}
+
+  .nav-link {
+    width: 48.8%;
+    height: 47.8%;
+  }
+
+  .nav-link > div {
+    font-size: 18px;
+    height: 100%;
+  }
+
+  .nav-link .push-btn {
+    width: 26%;
+    border-radius: 8px;
+    height: 100%;
+  }
+
+  #show-more {
+    display: none;
+  }
+
+  a:hover {
+    color: #E4F9FF;
+  }
+
+  #show-less {display: none;}
+}
