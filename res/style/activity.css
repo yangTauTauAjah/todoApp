@@ -221,157 +221,6 @@ li .task.finished .check img {
   }
 }
 
-@media screen and (min-width: 270px) and (max-width: 720px) {
-
-  #edit-box, #filter-box, #new-task-box {
-    /* display: none; */
-    aspect-ratio: 313 / 273;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 313px;
-    background-color: white;
-    border-radius: 5px;
-    padding: 22px;
-  }
-
-  :is(#edit-box, #filter-box, #new-task-box) p {
-    width: 100%;
-    text-align: center;
-    color: #465153;
-    font-size: 20px;
-    font-weight: 600;
-  }
-
-  #edit-box :is(.input, .flex-1-line-h) {
-    height: 16.59%;
-  }
-
-  :is(#edit-box, #new-task-box) input {
-    box-sizing: border-box;
-    padding: 3.34%;
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    color: var(--light-gray);
-    border: var(--light-gray) 1px solid;
-    border-radius: 5px;
-    height: 100%;
-    width: 100%;
-  }
-
-  :is(#edit-box, #new-task-box) .input::after {
-    font-size: 10px;
-    position: absolute;
-    height: 33%;
-    aspect-ratio: 180 / 23;
-    border-right: var(--gray) 1px solid;
-    border-left: var(--gray) 1px solid;
-    text-align: center;
-    background: white;
-    color: var(--gray);
-    letter-spacing: 0.1em;
-    left: 4%;
-    transform: translateY(-50%);
-  }
-
-  :is(#edit-box, #new-task-box) .input:nth-child(2)::after {
-    content: 'Task name';
-  }
-
-  :is(#edit-box, #new-task-box) .input:nth-child(3)::after {
-    content: 'Description';
-  }
-
-  :is(#edit-box, #filter-box, #new-task-box) .flex-1-line-h {
-    gap: 20px;
-  }
-
-  :is(#edit-box, #filter-box, #new-task-box) .flex-1-line-h button {
-    box-sizing: content-box;
-    height: 100%;
-    width: 50%;
-    border-radius: 5px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    font-size: 15px;
-  }
-
-
-
-  #new-task-box :is(.input, .flex-1-line-h) {
-    height: 13%;
-  }
-
-  #new-task-box .input:nth-child(3)::after {
-    content: 'Due';
-  }
-
-  #new-task-box .input:nth-child(4)::after {
-    content: 'Description';
-  }
-
-
-
-  #filter-box :is(#created-at, #due) .input,
-  #filter-box #is-finished {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  #filter-box :is(#created-at, #due) > label {
-    height: min-content;
-    transform: translateY(30%);
-    color: var(--gray);
-    font-size: 10px;
-  }
-
-  #filter-box :is(#created-at, #due, #is-finished) {
-    width: 100%;
-    height: 55px;
-  }
-
-  #filter-box :is(#created-at, #due) .input input,
-  #filter-box #is-finished :is(#finished, #unfinished) {
-    color: var(--light-gray);
-    border: var(--light-gray) 1px solid;
-    font-size: 12px;
-    padding: 7px;
-    border-radius: 5px;
-    width: 100%;
-  }
-
-  #filter-box #is-finished :is(#finished, #unfinished) {
-    display: flex;
-    align-items: center;
-    height: 15px;
-    padding: 0;
-    border: none;
-    top: 50%;
-    gap: 10px;
-    transform: translateY(-50%);
-    margin: 0 10px;
-  }
-
-  #filter-box #is-finished :is(#finished, #unfinished) .check {
-    position: relative;
-    border: #A5AEAF 2px solid;
-    flex-shrink: 0;
-    width: 15px;
-    height: 15px;
-    display: inline-block;
-  }
-
-  #filter-box #is-finished :is(#finished, #unfinished) .check > img {
-    /* display: none; */
-    height: 12px;
-    top: -2px;
-    left: -3px;
-  }
-
-}
-
 @media screen and (min-width: 720px) {
   
   #search-filter {
@@ -503,9 +352,9 @@ li .task.finished .check img {
 
   .task .check > img {
     display: none;
-    height: 20px;
+    height: 30px;
     position: absolute;
-    top: -2px;
+    top: -7px;
     left: -5px;
   }
 
@@ -690,9 +539,9 @@ li .task.finished .check img {
 
   .task .check > img {
     display: none;
-    height: 20px;
+    height: 30px;
     position: absolute;
-    top: -2px;
+    top: -7px;
     left: -5px;
   }
 
@@ -776,6 +625,191 @@ li .task.finished .check img {
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 4px;
+  }
+
+  #edit-box, #filter-box, #new-task-box {
+    /* display: none; */
+    aspect-ratio: 313 / 273;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 313px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 22px;
+  }
+
+  :is(#edit-box, #filter-box, #new-task-box) p {
+    width: 100%;
+    text-align: center;
+    color: #465153;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  #edit-box :is(.input, .flex-1-line-h) {
+    height: 16.59%;
+  }
+
+  :is(#edit-box, #new-task-box) input {
+    box-sizing: border-box;
+    padding: 3.34%;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    color: var(--light-gray);
+    border: var(--light-gray) 1px solid;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+  }
+
+  :is(#edit-box, #new-task-box) .input::after {
+    font-size: 10px;
+    position: absolute;
+    height: 33%;
+    aspect-ratio: 180 / 23;
+    border-right: var(--gray) 1px solid;
+    border-left: var(--gray) 1px solid;
+    text-align: center;
+    background: white;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    left: 4%;
+    transform: translateY(-50%);
+  }
+
+  :is(#edit-box, #new-task-box) .input:nth-child(2)::after {
+    content: 'Task name';
+  }
+
+  :is(#edit-box, #new-task-box) .input:nth-child(3)::after {
+    content: 'Description';
+  }
+
+  :is(#edit-box, #filter-box, #new-task-box) .flex-1-line-h {
+    gap: 20px;
+  }
+
+  :is(#edit-box, #filter-box, #new-task-box) .flex-1-line-h button {
+    box-sizing: content-box;
+    height: 100%;
+    width: 50%;
+    border-radius: 5px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    font-size: 15px;
+  }
+
+
+
+  #new-task-box :is(.input, .flex-1-line-h) {
+    height: 13%;
+  }
+
+  #new-task-box .input:nth-child(3)::after {
+    content: 'Due';
+  }
+
+  #new-task-box .input:nth-child(4)::after {
+    content: 'Description';
+  }
+
+
+
+  #filter-box :is(#created-at, #due) .input,
+  #filter-box #is-finished {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  #filter-box :is(#created-at, #due) > label {
+    height: min-content;
+    transform: translateY(30%);
+    color: var(--gray);
+    font-size: 10px;
+  }
+
+  #filter-box :is(#created-at, #due, #is-finished) {
+    width: 100%;
+    height: 55px;
+  }
+
+  #filter-box :is(#created-at, #due) .input input,
+  #filter-box #is-finished :is(#finished, #unfinished) {
+    color: var(--light-gray);
+    border: var(--light-gray) 1px solid;
+    font-size: 12px;
+    padding: 7px;
+    border-radius: 5px;
+    width: 100%;
+  }
+
+  #filter-box #is-finished :is(#finished, #unfinished) {
+    display: flex;
+    align-items: center;
+    height: 15px;
+    padding: 0;
+    border: none;
+    top: 50%;
+    gap: 10px;
+    transform: translateY(-50%);
+    margin: 0 10px;
+  }
+
+  #filter-box #is-finished :is(#finished, #unfinished) .check {
+    position: relative;
+    border: #A5AEAF 2px solid;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+  }
+
+  #filter-box #is-finished :is(#finished, #unfinished) .check > img {
+    /* display: none; */
+    height: 12px;
+    top: -2px;
+    left: -3px;
+  }
+
+  #task-info-box {
+    padding: 30px;
+    width: 320px;
+    height: 270px;
+    border-radius: 10px;
+  }
+
+  #task-info-box .close-btn {
+    height: 20px
+  }
+
+  #task-info-box .task-name {
+    gap: 5px;
+    height: 54px;
+    border-radius: 10px;
+  }
+
+  #task-info-box :is(.task-name, .task-desc) > p {
+    font-size: 10px;
+    padding-left: 10px;
+  }
+
+  #task-info-box :is(.task-name, .task-desc) > div {
+    border-radius: 10px;
+    padding: 10px
+  }
+
+  #task-info-box :is(.task-name, .task-desc) > div > p {
+    user-select: text;
+    font-size: 13px;
+  }
+
+  #task-info-box .task-desc {
+    gap: 5px;
+    height: 140px;
+    width: 100%;
   }
 
 }
@@ -1352,15 +1386,3 @@ li .task.finished .check img {
   }
 
 }
-
-/* @keyframes test {
-  from {
-    transform: translateX(-100%);
-    x: -200;
-  }
-
-  to {
-    transform: translateX(0%);
-    x: 0
-  }
-} */
