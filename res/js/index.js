@@ -81,20 +81,6 @@ button(
   () => { console.log(global.taskToDelete) }
 )
 
-button(
-  document.querySelector('#show-more'),
-  () => { 
-    document.querySelector('.nav-link').classList.add('display')
-  }
-)
-
-button(
-  document.querySelector('#show-less'),
-  () => { 
-    document.querySelector('.nav-link').classList.remove('display')
-  }
-)
-
 
 
 

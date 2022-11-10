@@ -32,16 +32,20 @@
 </svg>
 </div></li> */}
 
-fetch('', { method: 'GET', mode: 'cors' }).then((val) => {
+fetch('https://portfolio.tugasonly.repl.co', {
+  method: 'GET', mode: 'cors', headers: 'host'
+}).then((val) => {
 
-  const key = [...val.headers.keys()];
+  /* const key = [...val.headers.keys()];
 
   [...val.headers.values()].forEach((val, i) => {
 
     console.log(`${key[i]}: ${val}`)
 
-  })
+  }) */
 
-})
+  console.log(e = val)
+
+}).catch(err => { console.error(err) })
 
 console.log('test')
