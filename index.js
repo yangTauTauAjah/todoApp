@@ -16,6 +16,10 @@ app.use(urlencoded({extended: false}), json(), cookieParser())
 
 app.use('/api', route)
 app.all('*', (req, res) => { res.send('not found') })
+app.use((req, res) => {
+  console.log(`request body: ${req.body}`)
+  console.log(`request ip: ${req.ip}`)
+})
 
 app.listen(PORT, () => {
 

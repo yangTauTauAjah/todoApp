@@ -15,12 +15,14 @@ async function login(req, res) {
       .setUsername(username)
       .getUser()
 
-    let responseData = {
-      user_id: user.id,
-      username
-    }
+      let responseData
   
     if (user ?? false) {
+
+      responseData = {
+        user_id: user.id,
+        username
+      }
   
       if (await bcrypt.compare(password, user.password)) {
     
