@@ -18,7 +18,7 @@ async function getUser(req, res) {
 
 async function addTask(req, res) {
 
-  const {id} = req.query
+  const { id } = req.body.userdata
 
   const {name, description, due} = req.body
 
@@ -35,7 +35,7 @@ async function addTask(req, res) {
 
 async function getAllTask(req, res) {
 
-  const { id } = req.body
+  const { id } = req.body.userdata
 
   const tasks = (await new UserClass()
   .setUserId(id)
@@ -49,7 +49,7 @@ async function getAllTask(req, res) {
 async function getTask(req, res) {
 
   const {id: taskId} = req.params
-  const {id} = req.query
+  const { id } = req.body.userdata
 
   const task = await new TaskClass()
     .setUserId(id)
@@ -62,8 +62,10 @@ async function getTask(req, res) {
 
 async function editTask(req, res) {
 
+  const {task_action} = req.query
   const {id: taskId} = req.params
-  const {id: userId, task_action} = req.query
+  const {id: userId} = req.body.userdata
+  const {name, desc, due} = req.body
   let is_completed
 
   switch (task_action) {
@@ -76,8 +78,6 @@ async function editTask(req, res) {
       is_completed = false
       break
   }
-
-  const {name, desc, due} = req.body
 
   const edited_task = await new TaskClass()
     .setUserId(userId)

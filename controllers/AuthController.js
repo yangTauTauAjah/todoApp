@@ -14,40 +14,46 @@ async function login(req, res) {
     const user = await new UserClass()
       .setUsername(username)
       .getUser()
+
+    let responseData = {
+      user_id: user.id,
+      username
+    }
   
     if (user ?? false) {
   
-      if (await bcrypt.compare(password, hash)) {
+      if (await bcrypt.compare(password, user.password)) {
     
-        const auth = new AuthClass()
-          .setUserId(user.id)
+        const auth = await userAuth.findOne({user_id: user.id}).exec()
     
-        if (await auth.get() ?? false) {
+        if (auth ?? false) {
     
-          await auth.renew(1000*60*60*24*7)
-          res.cookie('session_id', auth.id, {max_age: 1000*60*60*24*7}) // ms * sec * min * hours * days
+          new AuthClass()
+            .setSessionId(auth.id)
+            .renew(Number.parseInt(process.env['COOKIE_EXPIRATION']))
+
+          console.log('test')
+          res.cookie('session_id', auth.id, {maxAge: Number.parseInt(process.env['COOKIE_EXPIRATION'])}) // ms * sec * min * hours * days
+
+          responseData.session_id = auth.id
     
         } else {
-  
-          /* const newDoc = await userAuth.create({
-            user_id: id,
-            last_auth: new Date(),
-            expiration: new Date(Date.now() + 1000*60*60*24*7)
-          }) */
 
           const newDoc = await new AuthClass()
             .setUserId(user.id)
             .setLastAuthDate(new Date())
-            .setExpirationDate(new Date(Date.now() + 1000*60*60*24*7))
+            .setExpirationDate(new Date(Date.now() + Number.parseInt(process.env['COOKIE_EXPIRATION'])))
             .add()
     
-          res.cookie('session_id', newDoc.id, {max_age: 1000*60*60*24*7})
+          res.cookie('session_id', newDoc.id, {maxAge: Number.parseInt(process.env['COOKIE_EXPIRATION'])})
+
+          responseData.session_id = newDoc.id
     
         }
   
-        response(res, 200, true, 'Authentication success', {id: user.id, username})
+        response(res, 200, true, 'Authentication success', responseData)
   
-      } else response(res, 422, false, 'Authentication failed')
+      } else response(res, 422, false, 'Credential doesn\'t match')
   
     } else response(res, 404, false, 'User not registered, please create a new one')
 
@@ -74,27 +80,5 @@ async function register(req, res) {
   } catch(err) { errorHandler(res, err) }
   
 }
-
-/* async function login(req, res) {
-
-  const {username, password} = req.body
-
-  try {
-
-    const user = await new UserClass()
-      .setUsername(username)
-      .getUser()
-
-    if (await bcrypt.compare(password, user.get('password'))) response(res, 200, true, 'login success')
-    else response(res, 422, false, 'wrong password')
-
-  } catch(err) {
-
-    console.error(err)
-    response(res, 422, false, err.message)
-
-  }
-
-} */
 
 module.exports = {login, register}

@@ -13,7 +13,7 @@ async function authorize(req, res, next) {
 
       const { username } = await userModel.findById(auth.user_id).updateOne({
         last_auth: new Date(),
-        expiration: new Date(Date.now() + 1000*60*60*24*7) // ms * sec * min * hours * days
+        expiration: new Date(Date.now() + Number.parseInt(process.env['COOKIE_EXPIRATION'])) // ms * sec * min * hours * days
       }).exec()
       req.body.userdata = { session: auth.id, id: auth.user_id, username }
       next()
