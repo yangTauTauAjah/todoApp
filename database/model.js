@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose')
+const {Schema, model, ObjectId} = require('mongoose')
 
 const TaskSchema = new Schema({
   name: {
@@ -29,6 +29,13 @@ const UserSchema =  new Schema({
   tasks: [ TaskSchema ]
 })
 
-const userModel = model('userData', UserSchema)
+const UserAuth = new Schema({
+  user_id: ObjectId,
+  last_auth: Date,
+  expiration: Date
+})
 
-module.exports = userModel
+const userModel = model('userData', UserSchema)
+const userAuth = model('userAuth', UserAuth)
+
+module.exports = { userModel, userAuth }

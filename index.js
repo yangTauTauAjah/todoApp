@@ -1,15 +1,18 @@
 require('dotenv').config()
 const { urlencoded, json } = require('express')
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const dbConnect = require('./database/connection.js')
 const app = express()
 const PORT = process.env.PORT
 const route = require('./routes')
+const { clearBody } = require('./functions.js')
+const { userModel } = require('./database/model')
 
 dbConnect()
 
-app.use(urlencoded({extended: false}))
-app.use(json())
+app.get('*', clearBody)
+app.use(urlencoded({extended: false}), json(), cookieParser())
 
 app.use('/api', route)
 app.all('*', (req, res) => { res.send('not found') })

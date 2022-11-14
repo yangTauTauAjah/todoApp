@@ -1,4 +1,4 @@
-const userModel = require('../database/model.js')
+const {userModel} = require('../database/model.js')
 const mongoose = require('mongoose')
 
 class User {

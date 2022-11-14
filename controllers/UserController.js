@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const UserClass = require('../class/userClass.js')
+const { userModel } = require('../database/model.js')
 const TaskClass = require('../class/taskClass.js')
 const { response } = require('../functions.js')
 
 async function getUser(req, res) {
 
-  const { id } = req.body
+  const { id } = req.body.userdata
 
   const user = await new UserClass()
     .setUserId(id)
@@ -92,10 +93,12 @@ async function removeTask(req, res) {
   const {id: taskId} = req.params
   const {id: userId} = req.query
 
-  await new TaskClass()
+  /* await new TaskClass()
   .setUserId(userId)
   .setTaskId(taskId)
-  .removeTask()
+  .removeTask() */
+  console.log(req.body)
+  
 
   return response(res, 200, true, 'task removed')
 
@@ -110,9 +113,6 @@ async function taskAction(req, res) {
     case "unmark_completed":
       editTask(req, res)
       break
-    case "remove":
-      removeTask(req, res)
-      break
     default:
       getTask(req, res)
       break
@@ -121,4 +121,4 @@ async function taskAction(req, res) {
 
 }
 
-module.exports = { getUser, addTask, getAllTask, getTask, taskAction }
+module.exports = { getUser, addTask, removeTask, getAllTask, getTask, taskAction }
