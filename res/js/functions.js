@@ -58,11 +58,11 @@ export function floatingElementSwitch(element, openBtn, closeBtn) {
 
 }
 
-export function taskElement(id, name, dateCreated, due) {
+export function taskElement(id, name, dateCreated, due, is_completed) {
 
-  return `<li><div id="${id}" class="task">
+  return `<li><div id="${id}" class="task ${is_completed ? "finished" : ""}">
     <div class="check">
-      <img class="" src="../svg/final/check.svg" alt="">
+      <img class="" src="/static/svg/final/check.svg" alt="">
     </div>
     <!-- <input class="check" type="checkbox" name="" id=""> -->
     <div class="task-name">
@@ -76,9 +76,9 @@ export function taskElement(id, name, dateCreated, due) {
       <p>Due :</p><span class="space-1"> </span><p>${due.month} / ${due.date} / ${due.year}</p>
     </div>
     <div class="act-btns">
-      <img class="info" src="../svg/final/info.svg" alt="">
-      <img class="edit-self" src="../svg/final/edit.svg" alt="">
-      <img class="delete-self" src="../svg/final/trash.svg" alt="">
+      <img class="info" src="/static/svg/final/info.svg" alt="">
+      <img class="edit-self" src="/static/svg/final/edit.svg" alt="">
+      <img class="delete-self" src="/static/svg/final/trash.svg" alt="">
     </div>
     <svg class="select" width="76" height="76" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
 

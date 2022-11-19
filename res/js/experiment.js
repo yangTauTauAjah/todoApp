@@ -1,5 +1,5 @@
 
-{/* <li><div class="task" id="_123">
+/* <li><div class="task" id="_123">
 <div class="check">
   <img class="" src="../svg/final/check.svg" alt="">
 </div>
@@ -30,11 +30,19 @@
   </svg>
 
 </svg>
-</div></li> */}
+</div></li> */
 
-fetch('https://portfolio.tugasonly.repl.co', {
-  method: 'GET', mode: 'cors', headers: 'host'
-}).then((val) => {
+fetch('http://localhost:3000/api/auth/login', {
+  method: 'post',
+  credentials: 'same-origin',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'Yanto',
+    password: 'Yanto'
+  })
+}).then(async (val) => {
 
   /* const key = [...val.headers.keys()];
 
@@ -44,8 +52,8 @@ fetch('https://portfolio.tugasonly.repl.co', {
 
   }) */
 
-  console.log(e = val)
+  e = val
+  console.log(await e.json())
 
-}).catch(err => { console.error(err) })
-
-console.log('test')
+})
+// .catch(err => { console.error(err) })

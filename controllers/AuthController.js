@@ -29,29 +29,24 @@ async function login(req, res) {
         const auth = await userAuth.findOne({user_id: user.id}).exec()
     
         if (auth ?? false) {
-    
+
           new AuthClass()
             .setSessionId(auth.id)
-            .renew(Number.parseInt(process.env['COOKIE_EXPIRATION']))
-
-          console.log('test')
-          res.cookie('session_id', auth.id, {maxAge: Number.parseInt(process.env['COOKIE_EXPIRATION'])}) // ms * sec * min * hours * days
-
-          responseData.session_id = auth.id
+            .remove()
     
-        } else {
+        } 
+        
+        const newSession = await new AuthClass()
+          .setUserId(user.id)
+          .setLastAuthDate(new Date())
+          .setExpirationDate(new Date(Date.now() + Number.parseInt(process.env['COOKIE_EXPIRATION'])))
+          .add()
+  
+        res.cookie('session_id', newSession.id, {
+          maxAge: Number.parseInt(process.env['COOKIE_EXPIRATION'])
+        })
 
-          const newDoc = await new AuthClass()
-            .setUserId(user.id)
-            .setLastAuthDate(new Date())
-            .setExpirationDate(new Date(Date.now() + Number.parseInt(process.env['COOKIE_EXPIRATION'])))
-            .add()
-    
-          res.cookie('session_id', newDoc.id, {maxAge: Number.parseInt(process.env['COOKIE_EXPIRATION'])})
-
-          responseData.session_id = newDoc.id
-    
-        }
+        responseData.session_id = newSession.id
   
         response(res, 200, true, 'Authentication success', responseData)
   

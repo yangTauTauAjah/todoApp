@@ -1,25 +1,72 @@
 require('dotenv').config()
-const { urlencoded, json } = require('express')
-const express = require('express')
-const cookieParser = require('cookie-parser')
+const fs = require('fs')
+const path = require('path')
 const dbConnect = require('./database/connection.js')
-const app = express()
-const PORT = process.env.PORT
 const route = require('./routes')
 const { clearBody } = require('./functions.js')
-const { userModel } = require('./database/model')
+const cookieParser = require('cookie-parser')
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const PORT = process.env.PORT
 
 dbConnect()
 
-app.get('*', clearBody)
-app.use(urlencoded({extended: false}), json(), cookieParser())
+/* static files */
 
+app.use('/static/style', express.static(path.join(__dirname, 'res/style')))
+app.use('/static/js', express.static(path.join(__dirname, 'res/js')))
+app.use('/static/svg/final/logo.png', (req, res) => {
+
+  fs.readFile(path.join(__dirname + '/res/svg/final/logo.png'), (err, data) => {
+    if(err) console.error(err)
+    res.type('png')
+    res.write(data)
+    res.end()
+  })
+
+})
+app.use('/static/svg/final/arrow.png', (req, res) => {
+
+  fs.readFile(path.join(__dirname + '/res/svg/final/arrow.png'), (err, data) => {
+    if(err) console.error(err)
+    res.type('png')
+    res.write(data)
+    res.end()
+  })
+
+})
+app.use('/static/svg', express.static(path.join(__dirname, 'res/svg')))
+
+/* pages */
+
+let home
+fs.readFile(path.join(__dirname + '/res/pages/activity.html'), (err, data) => {
+  if(err) console.error(err)
+  home = data
+})
+
+
+
+app.get('/', async (req, res) => {
+
+  res.contentType('html')
+  res.write(home)
+  res.end()
+
+})
+
+app.get('*',clearBody)
+app.use(cors(), express.urlencoded({extended: false}), express.json(), cookieParser())
+
+app.use((req, res, next) => {
+  console.log(`request ip: ${req.ip}`)
+  console.log(`request body: ${JSON.stringify(req.body)}`)
+  console.log(`cookies: ${JSON.stringify(req.cookies)}`)
+  next()
+})
 app.use('/api', route)
 app.all('*', (req, res) => { res.send('not found') })
-app.use((req, res) => {
-  console.log(`request body: ${req.body}`)
-  console.log(`request ip: ${req.ip}`)
-})
 
 app.listen(PORT, () => {
 

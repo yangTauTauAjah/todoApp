@@ -24,10 +24,12 @@ class Auth {
     })
   }
   async renew(max_age) {
-    return await (await this.get()).updateOne({
+
+    return await userAuth.findByIdAndUpdate(this.session_id, {
       last_auth: new Date(),
-      expiration: new Date(max_age)
+      expiration: new Date(Date.now() + max_age)
     }).exec()
+    
   }
   async isExpired() {
     const auth = await this.get()

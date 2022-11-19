@@ -54,30 +54,30 @@ class Task {
     
   }
 
-  async editTask({name, desc, due = {}}, is_completed) {
+  async editTask(edit) {
 
     const doc =
       await new User()
       .setUserId(this.user_id)
       .getUser()
     
-    const task = doc.tasks.id(this.id)
-    task = {
-      name: name ?? task.name,
-      desc: desc ?? task.desc,
-      last_modified: new Date() ?? task.last_modified,
-      due: new Date(
-        due.year ?? task.due.getFullYear(),
-        due.month ?? task.due.getMonth(),
-        due.date ?? task.due.getDate()
-      ),
-      is_completed: is_completed ?? task.is_completed
-    }
+    let task = doc.tasks.id(this.id)
+    task.name = edit?.name ?? task?.name
+    task.desc = edit?.desc ?? task?.desc
+    task.last_modified = new Date(
+      edit?.last_modified?.year ?? task?.last_modified.getFullYear(),
+      edit?.last_modified?.month ?? task?.last_modified.getMonth(),
+      edit?.last_modified?.date ?? task?.last_modified.getDate())
+    task.due = new Date(
+      edit?.due?.year ?? task?.due.getFullYear(),
+      edit?.due?.month ?? task?.due.getMonth(),
+      edit?.due?.date ?? task?.due.getDate())
+    task.is_completed = edit?.is_completed ?? task?.is_completed
 
     doc.markModified('tasks')
     await doc.save()
 
-    return {id: this.id, ...task}
+    return {...task._doc}
 
   }
 
@@ -88,7 +88,7 @@ class Task {
       .setUserId(this.user_id)
       .getUser()
     
-    await doc.tasks.id(this.id).remove()
+    await doc.tasks.id(this.id)?.remove()
     doc.markModified('tasks')
 
     return await doc.save()

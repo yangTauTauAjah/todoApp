@@ -1,106 +1,148 @@
-const mongoose = require('mongoose')
 const UserClass = require('../class/userClass.js')
-const { userModel } = require('../database/model.js')
 const TaskClass = require('../class/taskClass.js')
-const { response } = require('../functions.js')
+const { response, errorHandler } = require('../functions.js')
+
+Date.prototype.toJSON = function() {
+  return {
+    month: this.getMonth(),
+    date: this.getDate(),
+    year: this.getFullYear()
+  }
+}
 
 async function getUser(req, res) {
 
-  const { id } = req.body.userdata
+  const {id} = req.body.userdata
 
-  const user = await new UserClass()
-    .setUserId(id)
-    .getUser()
+  try {
 
-  return response(res, 200, true, 'user data retrieved', user)
+    const { id: user_id, username, tasks } = await new UserClass()
+      .setUserId(id)
+      .getUser()
+  
+    return response(res, 200, true, 'user data retrieved', {user_id,username,tasks})
+
+  } catch(err) { errorHandler(res, err) }
 
 }
 
 async function addTask(req, res) {
 
-  const { id } = req.body.userdata
+  const {id} = req.body.userdata
+  const {name,description,due} = req.body
 
-  const {name, description, due} = req.body
+  try {
 
-  const doc = await new TaskClass()
+    const doc = await new TaskClass()
     .setUserId(id)
     .setName(name)
     .setDesc(description)
     .setDueDate(due.month,due.date,due.year)
     .addTask()
 
-  return response(res, 200, true, 'task added', doc)
+    return response(res, 200, true, 'task added', doc)
 
-}
-
-async function getAllTask(req, res) {
-
-  const { id } = req.body.userdata
-
-  const tasks = (await new UserClass()
-  .setUserId(id)
-  .getUser())
-  .get('tasks')
-
-  return response(res, 200, true, 'all task', tasks)
+  } catch(err) { errorHandler(res, err) }
 
 }
 
 async function getTask(req, res) {
 
-  const {id: taskId} = req.params
-  const { id } = req.body.userdata
+  const {id} = req.body.userdata
 
-  const task = await new TaskClass()
+  try {
+
+    let tasks = (await new UserClass()
     .setUserId(id)
-    .setTaskId(taskId)
-    .getTask()
+    .getUser())
+    .get('tasks')
+  
+    return response(res, 200, true, 'task retrieved', tasks)
 
-  return response(res, 200, true, 'task retrieved', task)
+  } catch(err) { errorHandler(res, err) }
+
+}
+
+async function getTaskById(req, res) {
+
+  const {id: taskId} = req.params
+  const {id} = req.body.userdata
+
+  try {
+
+    const task = await new TaskClass()
+      .setUserId(id)
+      .setTaskId(taskId)
+      .getTask()
+
+    if (task ?? false) return response(res, 200, true, 'task retrieved', task)
+    else return response(res, 404, false, 'task doesn\'t exit')
+    
+
+  } catch(err) { errorHandler(res, err) }
 
 }
 
 async function editTask(req, res) {
 
-  const {task_action} = req.query
   const {id: taskId} = req.params
   const {id: userId} = req.body.userdata
-  const {name, desc, due} = req.body
-  let is_completed
 
-  switch (task_action) {
-    case "mark_completed":
-      req.body = {}
-      is_completed = true
-      break
-    case "unmark_completed":
-      req.body = {}
-      is_completed = false
-      break
-  }
+  try {
 
-  const edited_task = await new TaskClass()
-    .setUserId(userId)
-    .setTaskId(taskId)
-    .editTask({ name, desc, due }, is_completed)
+    let task = new TaskClass()
+      .setUserId(userId)
+      .setTaskId(taskId)
 
-  return response(res, 200, true, 'task edited', edited_task)
+    if (task.getTask() ?? false) {
+  
+      switch (req.query.task_action) {
+    
+        case "mark_completed":
+          req.body = {}
+          task = await task.editTask({is_completed: true})
+          break
+        case "unmark_completed":
+          req.body = {}
+          task = await task.editTask({is_completed: false})
+          break
+        case "edit":
+          task = await task.editTask({
+            name: req.body.name,
+            desc: req.body.desc,
+            due: req.body.due,
+          })
+          break
+    
+      }
+      
+      return response(res, 200, true, 'task edited', task)
+
+    } else return response(res, 404, false, 'task doesn\'t exit')
+
+  } catch(err) { errorHandler(res, err) }
 
 }
 
 async function removeTask(req, res) {
 
   const {id: taskId} = req.params
-  const {id: userId} = req.query
+  const {id: userId} = req.body.userdata
 
-  /* await new TaskClass()
-  .setUserId(userId)
-  .setTaskId(taskId)
-  .removeTask() */
-  console.log(req.body)
-  
+  try {
 
-  return response(res, 200, true, 'task removed')
+    const task = await new TaskClass()
+      .setUserId(userId)
+      .setTaskId(taskId)
+
+    if (await task.getTask() ?? false) {
+      await task.removeTask()
+      return response(res, 200, true, 'task removed')
+    } else {
+      return response(res, 422, false, 'task is not exist or might be removed already')
+    }
+
+  } catch(err) { errorHandler(res, err) }
 
 }
 
@@ -114,11 +156,11 @@ async function taskAction(req, res) {
       editTask(req, res)
       break
     default:
-      getTask(req, res)
+      getTaskById(req, res)
       break
 
   }
 
 }
 
-module.exports = { getUser, addTask, removeTask, getAllTask, getTask, taskAction }
+module.exports = { getUser, addTask, removeTask, getTask, taskAction }
