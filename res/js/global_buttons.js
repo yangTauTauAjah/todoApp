@@ -3,7 +3,13 @@ import { button } from './functions.js'
 button(
   document.querySelector('#logout'),
   () => { 
-    console.log('logged out')
+    fetch('/api/auth/logout', {
+      credentials: 'same-origin'
+    }).then(async (res) => {
+
+      if ((await res.json()).success) location = '/login'
+
+    })
   }
 )
 

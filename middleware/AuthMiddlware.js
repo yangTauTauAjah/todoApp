@@ -42,4 +42,20 @@ async function authorize(req, res, next) {
 
 }
 
-module.exports = { authorize }
+async function pageAuthenticate(req, res, next) {
+  const auth = new Auth()
+    .setSessionId(req.cookies.session_id)
+    .get()
+  if (await auth ?? false) res.redirect('/')
+  else next()
+}
+
+async function pageAuthorize(req, res, next) {
+  const auth = new Auth()
+    .setSessionId(req.cookies.session_id)
+    .get()
+  if (await auth ?? false) next()
+  else res.redirect('/login.html')
+}
+
+module.exports = { authorize, pageAuthenticate, pageAuthorize }

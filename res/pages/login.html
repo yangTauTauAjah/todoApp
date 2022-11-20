@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./style/style.css">
+  <link rel="stylesheet" href="/static/style/style.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,12 +14,7 @@
 
 </head>
 <body>
-  <!-- <form url="/" method="post">
-    <label>Username</label>   <input type="text" name="username" id="username"><br>
-    <label>Password</label>   <input type="text" name="password" id="password"><br>
-    <div id="submit">submit</div>
-  </form> -->
-  <form id="iForm" url="/" method="post">
+  <form id="iForm" method="post">
     <h1>LOGIN</h1>
     <div id="username">
       <label>Username</label>
@@ -47,17 +42,30 @@
         </div>
       </div>
     </div>
-    <!-- <div id="password">
-      <label>Password</label>
-      <div class="input">
-        <input type="text" name="password">
-        <div class="bottomLine"></div>
-      </div>
-    </div> -->
     <a class="thick FP" href="#">forgot password?</a>
     <button id="submit" type="submit" >Login</button>
     <label class="thick">Don't have account yet? <a href="#">Create new one</a></label>
   </form>
 </body>
-<script src="/jawa/jawaSkrip.js"></script>
+<script>
+
+  document.querySelector('#iForm').addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    fetch('/api/auth/login', {
+      method: 'post',
+      credentials: 'same-origin',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        username: document.querySelector('#username input[type=text]').value,
+        password: document.querySelector('#password input[type=text]').value
+      })
+    }).then(async (data) => {
+      if ((await data.json()).success) location = '/'
+    }, err => {
+      console.error(err)
+    })
+
+  })
+</script>
 </html>

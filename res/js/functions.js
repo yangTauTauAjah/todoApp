@@ -116,3 +116,11 @@ export function button(element, callback) {
     }
   )
 }
+
+export function authorize() {
+  fetch('/api/user').then(async (data) => {
+    if (!((await data.json()).success)) location = '/login.html'
+  }, err => {
+    console.error(err)
+  })
+}

@@ -5,6 +5,26 @@ const AuthClass = require('../class/authClass.js')
 const { userAuth } = require('../database/model.js')
 const { response, errorHandler } = require('../functions.js')
 
+async function register(req, res) {
+
+  const {username, password} = req.body
+
+  try {
+
+    const newUser = new UserClass()
+      .setUsername(username)
+    
+    if (await newUser.getUser() ?? false) return response(res, 402, false, 'username already exist')
+  
+    newUser.setPassword(await bcrypt.hash(password, 10))
+    const {id} = await newUser.storeUser()
+  
+    return response(res, 200, true, 'registration successful', { id, username, password })
+
+  } catch(err) { errorHandler(res, err) }
+  
+}
+
 async function login(req, res) {
 
   const {username, password} = req.body
@@ -58,24 +78,20 @@ async function login(req, res) {
 
 }
 
-async function register(req, res) {
+async function logout(req, res) {
 
-  const {username, password} = req.body
-
+  const {session_id} = req.cookies
+  
   try {
 
-    const newUser = new UserClass()
-      .setUsername(username)
-    
-    if (await newUser.getUser() ?? false) return response(res, 402, false, 'username already exist')
-  
-    newUser.setPassword(await bcrypt.hash(password, 10))
-    const {id} = await newUser.storeUser()
-  
-    return response(res, 200, true, 'registration successful', { id, username, password })
+    await new AuthClass()
+      .setSessionId(session_id)
+      .remove()
+
+    return response(res, 200, true, 'Logged out')
 
   } catch(err) { errorHandler(res, err) }
-  
+
 }
 
-module.exports = {login, register}
+module.exports = {login, register, logout}

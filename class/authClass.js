@@ -36,7 +36,7 @@ class Auth {
     return (auth?.expiration <= Date.now())
   }
   async getUser() { return await userModel.findById(this.user_id).exec() }
-  async remove() { return await userAuth.findByIdAndDelete(this.session_id).exec() }
+  async remove() { return await userAuth.findByIdAndRemove(this.session_id).exec() }
 
 }
 
