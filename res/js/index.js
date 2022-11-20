@@ -72,9 +72,14 @@ fetch('/api/user/task').then(async (tasks) => {
 
   button(
     document.querySelector('#Delete'),
-    () => {
+    async () => {
       const checked = document.querySelectorAll('#tasks .task.selected')
-      console.log(checked)
+      
+      for (let task of checked) {
+        await fetch(`/api/user/remove/removeTask/${task.id.slice(1)}`, {method: 'delete'})
+      }
+      
+      location.reload()
     }
   )
   
