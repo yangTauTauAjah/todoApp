@@ -118,6 +118,27 @@
     </div>
   </body>
 
-  <!-- <script src="/static/js/auth.js" defer type="module"></script> -->
+  <script>
+
+    const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const now = new Date()
+
+    document.querySelector('#day').innerText = DAYS[now.getDay()]
+    document.querySelector('#month').innerText = MONTHS[now.getMonth()]
+    document.querySelector('#date').innerText = now.getDate()
+    document.querySelector('#year').innerText = now.getFullYear()
+
+    fetch('/api/user').then(async (res) => {
+
+      username = (await res.json()).data.username
+        .split('-')[0]
+        .split('_')[0]
+
+      document.querySelector('#greeting p:nth-child(1)').innerText = `Hi, ${username}`
+
+    })
+
+  </script>
   <script src="/static/js/global_buttons.js" defer type="module"></script>
 </html>

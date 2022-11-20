@@ -14,7 +14,7 @@ async function register(req, res) {
     const newUser = new UserClass()
       .setUsername(username)
     
-    if (await newUser.getUser() ?? false) return response(res, 402, false, 'username already exist')
+    if (await newUser.getUser() ?? false) return response(res, 422, false, 'username already exist')
   
     newUser.setPassword(await bcrypt.hash(password, 10))
     const {id} = await newUser.storeUser()

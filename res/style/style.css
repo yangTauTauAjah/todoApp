@@ -38,6 +38,45 @@ body {
   letter-spacing: 1px;
 }
 
+.msgBox:has(p) {
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 10;
+}
+
+.msgBox:has(p) .msgCls {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.msgBox p {
+  display: inline;
+  font-family: Poppins;
+  font-weight: 100;
+}
+
+.msgBox:has(p) span {
+  display: unset !important;
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+#msg:has(p) {
+  position: absolute;
+  background: linear-gradient(rgb(249, 170, 170), rgb(239, 129, 129));
+  border: 1px solid rgb(174, 52, 52);
+  width: 80%;
+  color: rgb(174, 52, 52)
+}
+
+#msg:has(p) .msgCls {
+  background: rgb(222, 104, 104);
+}
+
 .input {
   display: flex;
 }
@@ -49,10 +88,10 @@ body {
 .bottomLine {
   position: absolute;
   top: 80%;
-  /* transform: translateX(-50%); */
   background-color: rgb(148, 175, 230);
   height: 3px;
   width: 95%;
+  transition: all 100ms;
 }
 
 .input .iBox {

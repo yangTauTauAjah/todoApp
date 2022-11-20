@@ -28,6 +28,10 @@
         </div>
       </div>
     </div>
+    <div id="msg" class="msgBox">
+      <div class="msgCls"></div>
+      <span style="display: none">Error!</span>
+    </div>
     <div id="password">
       <label>Password</label>
       <div class="input">
@@ -61,7 +65,11 @@
         password: document.querySelector('#password input[type=text]').value
       })
     }).then(async (data) => {
-      if ((await data.json()).success) location = '/'
+      const res = await data.json()
+      if (res.success) location = '/'
+      else {
+        document.querySelector('#msg').innerHTML = `<span style="display: none">Error!</span><p>${res.message}</p>`
+      }
     }, err => {
       console.error(err)
     })

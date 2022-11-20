@@ -1,6 +1,10 @@
 /node_modules
 /jawa
 /res/Untitled.fig
+/res/pages/experiment.html
+/res/js/experiment.js
+/res/style/style.css.map
+/res/style/style.scss
 package-lock.json
 .env
 .replit
