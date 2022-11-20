@@ -1,6 +1,7 @@
 /node_modules
 /jawa
+/res/Untitled.fig
 package-lock.json
 .env
-Untitled(1).fig
-Untitled.fig
+.replit
+replit.nix

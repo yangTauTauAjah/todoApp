@@ -1,7 +1,9 @@
 import { button, taskElement } from './functions.js'
-import { Edit, Info } from './floatingPanel.js'
+import { newTaskPanel, Edit, Info } from './floatingPanel.js'
 
-export let global = {}
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+
+export const global = {}
 
 /* const data = [
 
@@ -76,7 +78,7 @@ fetch('/api/user/task').then(async (tasks) => {
       const checked = document.querySelectorAll('#tasks .task.selected')
       
       for (let task of checked) {
-        await fetch(`/api/user/remove/removeTask/${task.id.slice(1)}`, {method: 'delete'})
+        await fetch(`/api/user/removeTask/${task.id.slice(1)}`, {method: 'delete'})
       }
       
       location.reload()
@@ -85,7 +87,55 @@ fetch('/api/user/task').then(async (tasks) => {
   
   button(
     (await Edit).getElement().querySelector('.flex-1-line-h > button:nth-child(2)'),
-    () => { console.log(global.taskToDelete) }
+    async () => {
+
+      const {_id, name, desc} = global.taskToEdit
+
+      const body = {
+        name: document.querySelector('#edit-box input[name="task-name"]').value,
+        desc: document.querySelector('#edit-box input[name="task-desc"]').value
+      }
+
+      await fetch(
+        `/api/user/task/${_id}?task_action=edit`,
+        {
+          method: 'post',
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({
+            name: body.name.length > 0 ? body.name : name,
+            desc: body.desc.length > 0 ? body.desc : desc
+          })
+        }
+      )
+      location.reload()
+
+    }
+  )
+
+  button(
+    (await newTaskPanel).getElement().querySelector('.flex-1-line-h button:nth-child(2)'),
+    () => {
+
+      let [year, month, date] = document.querySelector('#new-task-box input[name="task-due"]').value.split('-')
+      month--
+
+      console.log(month)
+        
+      fetch(`/api/user/addTask`, {
+        method: 'put',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: document.querySelector('#new-task-box input[name="task-name"]').value,
+          description: document.querySelector('#new-task-box input[name="task-desc"]').value,
+          due: {month, date, year}
+        })
+      })
+      location.reload()
+    }
   )
   
   
@@ -93,6 +143,8 @@ fetch('/api/user/task').then(async (tasks) => {
   
   
   data.forEach(({_id, name: taskName, last_modified, due, is_completed}) => {
+    last_modified.month = MONTHS[last_modified.month]
+    due.month = MONTHS[due.month]
     document.querySelector('#tasks').innerHTML += taskElement(`_${_id}`, taskName, last_modified, due, is_completed)
   })
   
@@ -103,10 +155,17 @@ fetch('/api/user/task').then(async (tasks) => {
       element.querySelector('.task .check'),
       e => {
     
-        if (e.parentNode.classList.contains('finished'))
+        if (e.parentNode.classList.contains('finished')) {
+
+          fetch(`/api/user/task/${_id}?task_action=unmark_completed`, {method: 'post'})
           e.parentNode.classList.remove('finished')
-        else
+
+        } else {
+
+          fetch(`/api/user/task/${_id}?task_action=mark_completed`, {method: 'post'})
           e.parentNode.classList.add('finished')
+
+        }
       
       }
     )
@@ -126,13 +185,16 @@ fetch('/api/user/task').then(async (tasks) => {
     )
       
     button(
-      element.querySelector(`#_${_id} .edit-self`),
-      async () => { global.taskToDelete = _id }
+      element.querySelector(`.edit-self`),
+      async () => { global.taskToEdit = {_id, name: taskName, desc} }
     )
   
     button(
-      element.querySelector('.task .delete-self'),
-      () => { console.log(element) }
+      element.querySelector(`.delete-self`),
+      async () => {
+        await fetch(`/api/user/removeTask/${_id}`, {method: 'delete'})
+        location.reload()
+      }
     )
   
   

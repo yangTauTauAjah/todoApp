@@ -18,6 +18,7 @@ app.use(cors(), express.urlencoded({ extended: false }), express.json(), cookieP
 
 app.use((req, res, next) => {
   console.log(`${req.ip} ${req.method} ${req.path}`)
+  console.log(`request query: ${JSON.stringify(req.query)}`)
   console.log(`request body: ${JSON.stringify(req.body)}`)
   console.log(`cookies: ${JSON.stringify(req.cookies)}`)
   next()
