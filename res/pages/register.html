@@ -14,8 +14,8 @@
 
 </head>
 <body>
-  <form id="iForm" method="post">
-    <h1>LOGIN</h1>
+  <form id="iForm" action="/api/auth/register" method="post">
+    <h1>REGISTER</h1>
     <div id="username">
       <label>Username</label>
       <div class="input">
@@ -42,17 +42,17 @@
         </div>
       </div>
     </div>
-    <a class="thick FP" href="#">forgot password?</a>
-    <button id="submit" type="submit" >Login</button>
-    <label class="thick">Don't have account yet? <a href="/register.html">Create new one</a></label>
+    <button id="submit" type="submit" >Register</button>
+    <label class="thick">Already have account? <a href="/login.html">Go to login page</a></label>
   </form>
 </body>
 <script>
 
   document.querySelector('#iForm').addEventListener('submit', (e) => {
+
     e.preventDefault()
 
-    fetch('/api/auth/login', {
+    fetch('/api/auth/register', {
       method: 'post',
       credentials: 'same-origin',
       headers: {'Content-Type': 'application/json'},
@@ -67,5 +67,6 @@
     })
 
   })
+
 </script>
 </html>

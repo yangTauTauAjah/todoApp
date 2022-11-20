@@ -29,6 +29,7 @@ app.use('/static/style', express.static(path.join(__dirname, 'res/style')))
 app.use('/static/js', express.static(path.join(__dirname, 'res/js')))
 app.use('/static/svg', express.static(path.join(__dirname, 'res/svg')))
 app.get('/login.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
+app.get('/register.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
 app.get('/', pageAuthorize, express.static(path.join(__dirname, 'res/pages')))
 
 app.use('/api', apiRoute)
