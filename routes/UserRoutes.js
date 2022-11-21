@@ -5,6 +5,7 @@ router.get('/', getUser)
 router.put('/addTask', addTask)
 router.delete('/removeTask/:id', removeTask)
 router.get('/task', getTask)
+router.get('/task/:group', getTask)
 router.post('/task/:id', taskAction)
 
 module.exports = router

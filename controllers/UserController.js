@@ -1,5 +1,6 @@
 const UserClass = require('../class/userClass.js')
 const TaskClass = require('../class/taskClass.js')
+const {userModel} = require('../database/model.js')
 const { response, errorHandler } = require('../functions.js')
 
 Date.prototype.toJSON = function() {
@@ -48,7 +49,18 @@ async function addTask(req, res) {
 
 async function getTask(req, res) {
 
-  const {id} = req.body.userdata
+  let {id} = req.body.userdata
+  let {group} = req.params
+  let { cf, ct, df, dt, is_completed } = req.query
+  switch (is_completed) {
+    case 'true': is_completed = true; break;
+    case 'false': is_completed = false; break;
+    default: is_completed = null; break;
+  }
+
+  
+
+  // const now = new Date()
 
   try {
 
@@ -56,8 +68,33 @@ async function getTask(req, res) {
     .setUserId(id)
     .getUser())
     .get('tasks')
+
+    let toSend = tasks
+
+    if (cf ?? false) toSend = toSend.filter(task => Date.parse(cf) <= Date.parse(task.last_modified))
+    if (ct ?? false) toSend = toSend.filter(task => Date.parse(ct) >= Date.parse(task.last_modified))
+    if (df ?? false) toSend = toSend.filter(task => Date.parse(df) <= Date.parse(task.due))
+    if (dt ?? false) toSend = toSend.filter(task => Date.parse(dt) >= Date.parse(task.due))
+    if (is_completed === true || is_completed === false) toSend = toSend.filter(task => is_completed === task.is_completed)
+
+    /* switch (group) {
+
+      case 'today':
+        toSend = tasks.filter(task => task.due > now)
+        break;
+      case 'completed':
+        toSend = tasks.filter(task => task.is_completed)
+        break;
+      case 'uncompleted':
+        toSend = tasks.filter(task => !task.is_completed)
+        break;
+      default:
+        toSend = tasks
+        break;
+
+    } */
   
-    return response(res, 200, true, 'task retrieved', tasks)
+    return response(res, 200, true, 'task retrieved', toSend)
 
   } catch(err) { errorHandler(res, err) }
 

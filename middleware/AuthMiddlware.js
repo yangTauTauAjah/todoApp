@@ -55,7 +55,7 @@ async function pageAuthorize(req, res, next) {
     .setSessionId(req.cookies.session_id)
     .get()
   if (await auth ?? false) next()
-  else res.redirect('/login.html')
+  else res.redirect('/login')
 }
 
 module.exports = { authorize, pageAuthenticate, pageAuthorize }

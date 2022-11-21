@@ -1,8 +1,8 @@
 require('dotenv').config()
-const fs = require('fs')
+const { login, register, home, todoList } = require('./files.js')
 const path = require('path')
 const dbConnect = require('./database/connection.js')
-const { apiRoute } = require('./routes')
+const { apiRoute, pageRoute } = require('./routes')
 const { pageAuthenticate, pageAuthorize } = require('./middleware/AuthMiddlware.js')
 const { clearBody } = require('./functions.js')
 const cookieParser = require('cookie-parser')
@@ -30,14 +30,16 @@ app.use('/static/style', express.static(path.join(__dirname, 'res/style')))
 app.use('/static/js', express.static(path.join(__dirname, 'res/js')))
 app.use('/static/svg', express.static(path.join(__dirname, 'res/svg')))
 
-app.use('/api', apiRoute)
+/* routes */
 
-app.get('/login.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
+app.use('/api', apiRoute)
+app.use('/', pageRoute)
+
+/* app.get('/login.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
 app.get('/register.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
-app.use('/', pageAuthorize, express.static(path.join(__dirname, 'res/pages')))
+app.use('/', pageAuthorize, express.static(path.join(__dirname, 'res/pages'))) */
 
 app.all('*', (req, res) => { res.send('not found') })
-
 
 app.listen(PORT, () => {
 

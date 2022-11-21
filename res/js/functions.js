@@ -1,3 +1,5 @@
+export const global = {}
+
 export function removeArrayElement(array, element) {
 
   array.find((val, i) => {

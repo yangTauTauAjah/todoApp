@@ -67,7 +67,7 @@
 
     <div class="todos container">
       <p>Todo list :</p>
-      <div class="category today flex-1-line-h">
+      <div id="today" class="category today flex-1-line-h">
         <div class="img" id="category-1">
           <img src="/static/svg/final/sunrise.png" alt="">
         </div>
@@ -80,7 +80,7 @@
           <div><p>10 tasks to do</p></div>
         </div>
       </div>
-      <div class="category plan flex-1-line-h">
+      <div id="plan" class="category plan flex-1-line-h">
         <div class="img" id="category-2">
           <img src="/static/svg/final/plan.png" alt="">
         </div>
@@ -93,7 +93,7 @@
           <div><p>10 tasks to do</p></div>
         </div>
       </div>
-      <div class="category all flex-1-line-h">
+      <div id="all" class="category all flex-1-line-h">
         <div class="img" id="category-3">
           <img src="/static/svg/final/tasks.png" alt="">
         </div>
@@ -120,6 +120,50 @@
 
   <script>
 
+    fetch('/api/user').then(async (res) => {
+
+      let {data} = await res.json()
+
+      let username = data.username
+        .split('-')[0]
+        .split('_')[0]
+
+      document.querySelector('#greeting p:nth-child(1)').innerText = `Hi, ${username}`
+
+      const now = new Date()
+      let today = {total: 0, finished: 0, remaining: 0}
+      let plan = {total: 0}
+      let all = {total: 0, finished: 0, remaining: 0}
+
+      for (let task of data.tasks) {
+        all.total++
+
+        if (task.is_completed) all.finished++
+        else {all.remaining++; plan.total++}
+
+        if (
+          Date.parse(new Date(task.due.year, task.due.month, task.due.date)) === Date.parse(new Date().toLocaleDateString())
+        ) {
+          today.total++
+          if (task.is_completed) today.finished++
+          else today.remaining++
+        }
+
+      }
+
+
+
+      document.querySelector('#today .indicator div:nth-child(1)').innerHTML = `<p>Completed ${(today.finished/today.total * 100) || 0}%</p>`
+      document.querySelector('#today .indicator div:nth-child(2)').innerHTML = `<p>${today.remaining} tasks to do</p>`
+
+      document.querySelector('#plan .indicator div:nth-child(1)').innerHTML = `<p>Completed 0%</p>`
+      document.querySelector('#plan .indicator div:nth-child(2)').innerHTML = `<p>${plan.total} tasks to do</p>`
+
+      document.querySelector('#all .indicator div:nth-child(1)').innerHTML = `<p>Completed ${(all.finished/all.total * 100) || 0}%</p>`
+      document.querySelector('#all .indicator div:nth-child(2)').innerHTML = `<p>${all.remaining} tasks to do</p>`
+
+    })
+
     const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
     const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const now = new Date()
@@ -129,15 +173,10 @@
     document.querySelector('#date').innerText = now.getDate()
     document.querySelector('#year').innerText = now.getFullYear()
 
-    fetch('/api/user').then(async (res) => {
-
-      username = (await res.json()).data.username
-        .split('-')[0]
-        .split('_')[0]
-
-      document.querySelector('#greeting p:nth-child(1)').innerText = `Hi, ${username}`
-
-    })
+    document.querySelector('#today').addEventListener('click', () => {location = `/task?df=${new Date().toLocaleDateString()}&dt=${new Date().toLocaleDateString()}`})
+    document.querySelector('#plan').addEventListener('click', () => {location = '/task?is_completed=false'})
+    document.querySelector('#all').addEventListener('click', () => {location = '/task'})
+    document.querySelector('#finish-task').addEventListener('click', () => {location = '/task?is_completed=true'})
 
   </script>
   <script src="/static/js/global_buttons.js" defer type="module"></script>

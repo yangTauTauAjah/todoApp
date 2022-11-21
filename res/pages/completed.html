@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@300;500;600&family=Open+Sans:wght@500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="static/style/global.css">
-    <link rel="stylesheet" href="static/style/navbar-box.css">
-    <link rel="stylesheet" href="static/style/activity.css">
+    <link rel="stylesheet" href="/static/style/global.css">
+    <link rel="stylesheet" href="/static/style/navbar-box.css">
+    <link rel="stylesheet" href="/static/style/activity.css">
     
     
   </head>
@@ -166,7 +166,87 @@
 
   </body>
   
-  <script src="/static/js/index.js" defer type="module"></script>
+  <script type="module">
+
+    import { newTaskPanel, Edit, Info } from '/static/js/floatingPanel.js'
+    import { insertTask, global, button } from '/static/js/functions.js'
+    
+    fetch('/api/user/task/completed').then(async (tasks) => {
+    
+      const {data} = await tasks.json()
+    
+      button(
+        document.querySelector('#Delete'),
+        async () => {
+          const checked = document.querySelectorAll('#tasks .task.selected')
+          
+          for (let task of checked) {
+            await fetch(`/api/user/removeTask/${task.id.slice(1)}`, {method: 'delete'})
+          }
+          
+          location.reload()
+        }
+      )
+      
+      button(
+        (await Edit).getElement().querySelector('.flex-1-line-h > button:nth-child(2)'),
+        async () => {
+    
+          const {_id, name, desc} = global.taskToEdit
+    
+          const body = {
+            name: document.querySelector('#edit-box input[name="task-name"]').value,
+            desc: document.querySelector('#edit-box input[name="task-desc"]').value
+          }
+    
+          await fetch(
+            `/api/user/task/${_id}?task_action=edit`,
+            {
+              method: 'post',
+              headers: {
+                "Content-Type": 'application/json'
+              },
+              body: JSON.stringify({
+                name: body.name.length > 0 ? body.name : name,
+                desc: body.desc.length > 0 ? body.desc : desc
+              })
+            }
+          )
+          location.reload()
+    
+        }
+      )
+    
+      button(
+        (await newTaskPanel).getElement().querySelector('.flex-1-line-h button:nth-child(2)'),
+        () => {
+    
+          let [year, month, date] = document.querySelector('#new-task-box input[name="task-due"]').value.split('-')
+          month--
+    
+          console.log(month)
+            
+          fetch(`/api/user/addTask`, {
+            method: 'put',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              name: document.querySelector('#new-task-box input[name="task-name"]').value,
+              description: document.querySelector('#new-task-box input[name="task-desc"]').value,
+              due: {month, date, year}
+            })
+          })
+          location.reload()
+        }
+      )
+      
+      insertTask(data)
+      
+    })
+    .catch(err => console.error(err))
+
+  </script>
   <script src="/static/js/global_buttons.js" defer type="module"></script>
   <!-- <script src="static/js/experiment.js"></script> -->
 </html>
