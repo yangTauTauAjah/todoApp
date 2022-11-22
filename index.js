@@ -1,5 +1,4 @@
 require('dotenv').config()
-const { login, register, home, todoList } = require('./files.js')
 const path = require('path')
 const dbConnect = require('./database/connection.js')
 const { apiRoute, pageRoute } = require('./routes')
@@ -34,10 +33,6 @@ app.use('/static/svg', express.static(path.join(__dirname, 'res/svg')))
 
 app.use('/api', apiRoute)
 app.use('/', pageRoute)
-
-/* app.get('/login.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
-app.get('/register.html', pageAuthenticate, express.static(path.join(__dirname, 'res/pages')))
-app.use('/', pageAuthorize, express.static(path.join(__dirname, 'res/pages'))) */
 
 app.all('*', (req, res) => { res.send('not found') })
 

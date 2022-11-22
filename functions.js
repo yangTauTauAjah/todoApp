@@ -22,4 +22,13 @@ function errorHandler(res, err) {
 
 }
 
-module.exports = {response, clearBody, errorHandler}
+function sendHTML(page) {
+  return function(req, res) {
+    page.then(chunk => {
+      res.status(200).write(chunk)
+      res.end()
+    })
+  }
+}
+
+module.exports = {response, clearBody, errorHandler, sendHTML}

@@ -1,11 +1,16 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const validator = require('express-validator')
 const UserClass = require('../class/userClass.js')
 const AuthClass = require('../class/authClass.js')
 const { userAuth } = require('../database/model.js')
 const { response, errorHandler } = require('../functions.js')
 
 async function register(req, res) {
+
+  let validation = validator.validationResult(req)
+  if (!validation.isEmpty())
+    return response(res, 400, false, validation.array()[0].msg)
 
   const {username, password} = req.body
 

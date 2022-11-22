@@ -52,14 +52,13 @@ async function getTask(req, res) {
   let {id} = req.body.userdata
   let {group} = req.params
   let { cf, ct, df, dt, is_completed } = req.query
+
   switch (is_completed) {
     case 'true': is_completed = true; break;
     case 'false': is_completed = false; break;
     default: is_completed = null; break;
   }
-
   
-
   // const now = new Date()
 
   try {

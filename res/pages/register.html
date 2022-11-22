@@ -41,7 +41,7 @@
         </svg>
         </div>
         <div class="iBox password">
-          <input type="text" name="password">
+          <input type="password" name="password">
           <div class="bottomLine"></div>
         </div>
       </div>
@@ -62,7 +62,7 @@
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         username: document.querySelector('#username input[type=text]').value,
-        password: document.querySelector('#password input[type=text]').value
+        password: document.querySelector('#password input[type=password]').value
       })
     }).then(async (data) => {
       const res = await data.json()

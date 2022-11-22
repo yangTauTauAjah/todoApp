@@ -3,13 +3,27 @@ import { taskElement, button, global } from './functions.js'
 
 export async function insertTask(data) {
 
+  let listElementString = ''
   const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
   data.forEach(({_id, name: taskName, last_modified, due, is_completed}) => {
-    last_modified.month = MONTHS[last_modified.month]
-    due.month = MONTHS[due.month]
-    document.querySelector('#tasks').innerHTML += taskElement(`_${_id}`, taskName, last_modified, due, is_completed)
+
+    let dateCreated = {
+      year: last_modified.year,
+      month: MONTHS[last_modified.month],
+      date: last_modified.date
+    }
+
+    let dueDate = {
+      year: due.year,
+      month: MONTHS[due.month],
+      date: due.date
+    }
+
+    listElementString += taskElement(`_${_id}`, taskName, dateCreated, dueDate, is_completed)
   })
+
+  document.querySelector('#tasks').innerHTML = listElementString
   
   document.querySelectorAll('#tasks .task').forEach(async element => {
     const {_id, name: taskName, desc} = data.find(data => data._id === element.id.slice(1))
