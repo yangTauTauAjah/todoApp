@@ -67,6 +67,7 @@
     </div>
 
     <div id="activity" class="container">
+      <div id="home-btn"><a href="google.com"></a><img src="/static/svg/home.svg"></div>
       <p>Activities</p>
       <div id="column-info">
         <div><p>Activity name</p></div>
@@ -171,6 +172,10 @@
     import { newTaskPanel, Edit, Info } from '/static/js/floatingPanel.js'
     import { global, button } from '/static/js/functions.js'
     import { insertTask } from '/static/js/taskElement.js'
+
+    document.querySelector('#home-btn').addEventListener('click', () => {
+      location = '/'
+    })
 
     let data
 

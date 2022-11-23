@@ -12,6 +12,18 @@ body {
   width: 22px
 } */
 
+#home-btn {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 10;
+  padding: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: #2958FF;
+}
+
 .container {
   background: white;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
