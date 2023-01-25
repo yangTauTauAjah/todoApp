@@ -2,7 +2,6 @@ require('dotenv').config()
 const path = require('path')
 const dbConnect = require('./database/connection.js')
 const { apiRoute, pageRoute } = require('./routes')
-const { pageAuthenticate, pageAuthorize } = require('./middleware/AuthMiddlware.js')
 const { clearBody } = require('./functions.js')
 const cookieParser = require('cookie-parser')
 const express = require('express')
@@ -33,11 +32,6 @@ app.use('/static/svg', express.static(path.join(__dirname, 'res/svg')))
 
 app.use('/api', apiRoute)
 app.use('/', pageRoute)
+app.all('*', (req, res) => res.send('not found') )
 
-app.all('*', (req, res) => { res.send('not found') })
-
-app.listen(PORT, () => {
-
-  console.log(`listening on port: ${PORT}`)
-
-})
+app.listen(PORT, () =>  console.log(`listening on port: ${PORT}`) )

@@ -7,7 +7,7 @@ button(
       credentials: 'same-origin'
     }).then(async (res) => {
 
-      if ((await res.json()).success) location = '/login.html'
+      if ((await res.json()).success) location = '/login'
 
     })
   }
